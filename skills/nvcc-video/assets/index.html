@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="data.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: #000; }
+
+      :root {
+        --green-bright: #1c8040;
+        --green-mid: #15672f;
+        --green-deep: #125a29;
+        --green-hill: #0f4d24;
+        --green-shadow: #0b3d1c;
+        --gold: #cc9900;
+        --gold-bright: #e6b800;
+        --term-green: #46d369;
+      }
+
+      #vid { position: absolute; inset: 0; width: 1920px; height: 1080px; object-fit: cover; z-index: 1; }
+
+      /* ---------- TITLE CARD ---------- */
+      #titlecard {
+        position: absolute; inset: 0; z-index: 60; overflow: hidden;
+        background: linear-gradient(180deg, var(--green-bright) 0%, var(--green-mid) 55%, var(--green-deep) 100%);
+        font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
+      }
+      #tc-glow {
+        position: absolute; top: -260px; right: -200px; width: 1100px; height: 1100px;
+        background: radial-gradient(circle, rgba(230,184,0,0.30) 0%, rgba(230,184,0,0.10) 35%, rgba(230,184,0,0) 70%);
+        z-index: 1;
+      }
+      #tc-hill {
+        position: absolute; left: 0; right: 0; bottom: 0; height: 320px; z-index: 1;
+        background: linear-gradient(180deg, var(--green-hill), var(--green-shadow));
+        clip-path: ellipse(120% 100% at 50% 100%);
+      }
+      #tc-ghost {
+        position: absolute; left: 50%; top: 60%; transform: translate(-50%, -50%);
+        font-size: 460px; font-weight: 800; letter-spacing: 18px; color: #ffffff;
+        opacity: 0.07; z-index: 1; white-space: nowrap;
+      }
+      .tc-content { position: absolute; inset: 0; z-index: 3; padding: 150px 160px;
+        display: flex; flex-direction: column; justify-content: center; }
+      #tc-kicker { display: flex; align-items: center; gap: 22px; margin-bottom: 26px; }
+      #tc-lock { width: 86px; height: 110px; flex: 0 0 auto; }
+      #tc-kicker .ktext { color: var(--gold-bright); font-weight: 800; font-size: 30px; letter-spacing: 7px; }
+      #tc-title { color: #fff; font-weight: 800; font-size: 130px; line-height: 0.98; letter-spacing: 1px;
+        text-shadow: 0 8px 40px rgba(0,0,0,0.35); }
+      #tc-rule { height: 5px; width: 0; background: var(--gold); margin: 34px 0 30px; border-radius: 3px; }
+      #tc-sub { color: rgba(255,255,255,0.92); font-size: 40px; font-weight: 600; letter-spacing: 1px; }
+      #tc-prompt { margin-top: 54px; font-family: "JetBrains Mono", monospace; font-size: 38px; color: var(--term-green);
+        background: rgba(0,0,0,0.28); display: inline-block; padding: 16px 26px; border-radius: 10px;
+        border-left: 4px solid var(--gold); }
+      #tc-cursor { color: var(--gold-bright); }
+      .tc-reg { position: absolute; width: 34px; height: 34px; border-color: rgba(255,255,255,0.5); z-index: 3; }
+      .tc-reg.tl { top: 70px; left: 70px; border-top: 3px solid; border-left: 3px solid; }
+      .tc-reg.br { bottom: 70px; right: 70px; border-bottom: 3px solid; border-right: 3px solid; }
+
+      /* ---------- CAPTIONS (basic B&W, painted on word by word) ---------- */
+      #cap-layer { position: absolute; left: 0; right: 0; bottom: 74px; height: 220px; z-index: 30; }
+      .cap-group { position: absolute; left: 0; right: 0; bottom: 0; text-align: center; opacity: 0; visibility: hidden; }
+      .cap-box {
+        display: inline-block; max-width: 1500px; padding: 12px 26px;
+        background: rgba(0,0,0,0.80); border-radius: 8px; box-shadow: 0 6px 22px rgba(0,0,0,0.4);
+        color: #ffffff; font-family: Roboto, "Helvetica Neue", Arial, sans-serif; font-weight: 600;
+        font-size: 50px; line-height: 1.3; text-align: left;
+      }
+      .cap-word { opacity: 0; }
+
+      /* ---------- FLY-IN NOTE PANEL (top-right) ---------- */
+      #panel-layer { position: absolute; top: 64px; right: 64px; width: 520px; height: 900px; z-index: 20; }
+      .cmd-panel {
+        position: absolute; top: 0; right: 0; width: 520px; opacity: 0; visibility: hidden;
+        background: linear-gradient(160deg, #103a20 0%, #08210f 100%);
+        border-left: 4px solid var(--gold); border-radius: 18px;
+        box-shadow: 0 24px 60px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.10);
+        padding: 30px 32px 28px; font-family: Roboto, "Helvetica Neue", Arial, sans-serif; color: #fff;
+      }
+      .cp-kicker { font-size: 19px; font-weight: 800; letter-spacing: 3px; color: var(--gold-bright);
+        text-transform: uppercase; margin-bottom: 10px; }
+      .cp-head { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+      .cp-title { font-size: 44px; font-weight: 800; color: #fff; line-height: 1.04; letter-spacing: 0.3px; }
+      .cp-title.code { font-family: "JetBrains Mono", monospace; font-weight: 700; font-size: 46px; color: var(--gold-bright); }
+      .cp-sub { font-size: 26px; font-weight: 700; color: #fff; opacity: 0.95; }
+      .cp-divider { height: 3px; background: rgba(204,153,0,0.55); border-radius: 2px; margin: 16px 0 18px; }
+      .cp-one { font-size: 28px; line-height: 1.34; color: #fff; margin-bottom: 18px; }
+      .cp-label { font-size: 18px; font-weight: 800; letter-spacing: 2px; color: var(--gold-bright);
+        text-transform: uppercase; margin-bottom: 8px; }
+      .cp-block { background: rgba(0,0,0,0.30); border-radius: 10px; padding: 14px 16px; margin-bottom: 16px;
+        font-family: "JetBrains Mono", monospace; font-size: 25px; color: var(--term-green); white-space: pre-wrap; line-height: 1.4; }
+      .cp-block.syntax { color: #fff; }
+      .cp-rows { list-style: none; margin-bottom: 14px; }
+      .cp-rows li { display: flex; gap: 14px; align-items: baseline; margin-bottom: 9px; }
+      .cp-rows .k { font-family: "JetBrains Mono", monospace; font-weight: 700; color: var(--gold-bright); font-size: 25px;
+        min-width: 96px; flex: 0 0 auto; }
+      .cp-rows .v { font-size: 23px; color: rgba(255,255,255,0.92); line-height: 1.25; }
+      .cp-bullets { list-style: none; margin-bottom: 6px; }
+      .cp-bullets li { position: relative; padding-left: 30px; font-size: 25px; line-height: 1.34;
+        color: rgba(255,255,255,0.95); margin-bottom: 12px; }
+      .cp-bullets li::before { content: ""; position: absolute; left: 4px; top: 12px; width: 10px; height: 10px;
+        background: var(--gold-bright); border-radius: 2px; transform: rotate(45deg); }
+      .cp-note { font-size: 22px; color: rgba(255,255,255,0.9); border-top: 1px solid rgba(255,255,255,0.18);
+        padding-top: 14px; margin-top: 2px; }
+      .cp-note b { color: var(--gold-bright); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="10" data-width="1920" data-height="1080">
+
+      <!-- VIDEO + AUDIO — timing attributes are written by build-data.mjs to match the active window -->
+      <video id="vid" data-start="4" data-media-start="0" data-duration="6" data-track-index="0"
+             src="walkthrough.mp4" muted playsinline></video>
+      <audio id="aud" data-start="4" data-media-start="0" data-duration="6" data-track-index="2"
+             src="walkthrough.mp4" data-volume="1"></audio>
+
+      <!-- TITLE CARD (text filled from __VID.title) -->
+      <div id="titlecard" class="clip" data-start="0" data-duration="4" data-track-index="5">
+        <div id="tc-glow" data-layout-ignore></div>
+        <div id="tc-hill" data-layout-ignore></div>
+        <div id="tc-ghost" data-layout-ignore>ITP&nbsp;270</div>
+        <div class="tc-reg tl"></div>
+        <div class="tc-reg br"></div>
+        <div class="tc-content">
+          <div id="tc-kicker">
+            <svg id="tc-lock" viewBox="0 0 96 120" aria-hidden="true">
+              <path d="M22 44 a26 26 0 0 1 52 0 v18 h-12 v-18 a14 14 0 0 0 -28 0 v18 h-12 z" fill="#cc9900"/>
+              <rect x="12" y="60" width="72" height="56" rx="9" fill="#cc9900"/>
+              <circle cx="48" cy="84" r="8" fill="#0f4d24"/>
+              <rect x="44" y="88" width="8" height="18" rx="4" fill="#0f4d24"/>
+            </svg>
+            <span class="ktext" id="tc-ktext">ITP&nbsp;270 · PROGRAMMING FOR CYBERSECURITY</span>
+          </div>
+          <div id="tc-title">Title</div>
+          <div id="tc-rule"></div>
+          <div id="tc-sub">Subtitle</div>
+          <div id="tc-prompt">student@kali:~$ <span id="tc-cursor">▊</span></div>
+        </div>
+      </div>
+
+      <!-- OVERLAY LAYERS (built from __VID) -->
+      <div id="panel-layer"></div>
+      <div id="cap-layer"></div>
+
+      <!-- Write static clip-timing attributes from generated data BEFORE the runtime reads the DOM.
+           (build-data.mjs ALSO bakes these into the HTML so the renderer sees the right duration;
+            this is a belt-and-suspenders pass for the dev preview.) -->
+      <script>
+        (function () {
+          var V = window.__VID || {};
+          var root = document.getElementById("root");
+          var vid = document.getElementById("vid");
+          var aud = document.getElementById("aud");
+          var tc = document.getElementById("titlecard");
+          if (V.total) root.setAttribute("data-duration", String(V.total));
+          if (V.titleDur != null) tc.setAttribute("data-duration", String(V.titleDur));
+          if (V.win) {
+            [vid, aud].forEach(function (el) {
+              el.setAttribute("data-start", String(V.titleDur));
+              el.setAttribute("data-media-start", String(V.win.start));
+              el.setAttribute("data-duration", String(V.win.len));
+            });
+          }
+          // Title card text
+          var T = V.title || {};
+          if (T.kicker) document.getElementById("tc-ktext").innerHTML = T.kicker;
+          if (T.title) document.getElementById("tc-title").textContent = T.title;
+          if (T.subtitle) document.getElementById("tc-sub").textContent = T.subtitle;
+          var pr = document.getElementById("tc-prompt");
+          if (T.prompt === "") { pr.style.display = "none"; }
+          else if (T.prompt) { pr.innerHTML = T.prompt + ' <span id="tc-cursor">▊</span>'; }
+        })();
+      </script>
+
+      <script>
+        window.__timelines = window.__timelines || {};
+        var V = window.__VID || { captions: [], panels: [], titleDur: 4 };
+        var tl = gsap.timeline({ paused: true });
+
+        // ---------- TITLE CARD animation ----------
+        var TD = V.titleDur || 4;
+        tl.from("#tc-kicker", { y: -28, opacity: 0, duration: 0.55, ease: "power3.out" }, 0.15);
+        tl.from("#tc-title", { y: 44, opacity: 0, duration: 0.7, ease: "expo.out" }, 0.3);
+        tl.to("#tc-rule", { width: 360, duration: 0.6, ease: "power2.out" }, 0.7);
+        tl.from("#tc-sub", { y: 26, opacity: 0, duration: 0.5, ease: "power2.out" }, 0.85);
+        if ((V.title || {}).prompt !== "") {
+          tl.from("#tc-prompt", { y: 22, opacity: 0, duration: 0.5, ease: "back.out(1.5)" }, 1.05);
+          var blink = Math.max(1, Math.ceil(TD / 0.6) - 1);
+          tl.to("#tc-cursor", { opacity: 0, duration: 0.3, ease: "steps(1)", repeat: blink, yoyo: true }, 1.2);
+        }
+        tl.to("#titlecard", { opacity: 0, duration: 0.5, ease: "power2.inOut" }, TD - 0.5);
+
+        // ---------- CAPTIONS (paint-on, word by word) ----------
+        function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+        var capLayer = document.getElementById("cap-layer");
+        (V.captions || []).forEach(function (c, i) {
+          var line = document.createElement("div");
+          line.className = "cap-group"; line.id = "cg-" + i;
+          var box = document.createElement("span"); box.className = "cap-box";
+          (c.words || []).forEach(function (w, wi) {
+            var s = document.createElement("span"); s.className = "cap-word";
+            s.textContent = (wi ? " " : "") + w.text;
+            box.appendChild(s);
+          });
+          line.appendChild(box); capLayer.appendChild(line);
+          tl.fromTo(line, { opacity: 0, visibility: "hidden" }, { opacity: 1, visibility: "visible", duration: 0.12, ease: "power1.out" }, c.t0);
+          (c.words || []).forEach(function (w, wi) {
+            tl.fromTo(box.children[wi], { opacity: 0 }, { opacity: 1, duration: 0.1, ease: "power1.out" }, w.t);
+          });
+          tl.set(line, { opacity: 0, visibility: "hidden" }, c.t1);
+        });
+
+        // ---------- FLY-IN NOTE PANELS (unified card) ----------
+        var panelLayer = document.getElementById("panel-layer");
+        (V.panels || []).forEach(function (p, i) {
+          var el = document.createElement("div");
+          el.className = "cmd-panel"; el.id = "pn-" + i;
+          var rows = (p.rows || []).map(function (r) {
+            return '<li><span class="k">' + esc(r[0]) + '</span><span class="v">' + esc(r[1]) + "</span></li>";
+          }).join("");
+          var bullets = (p.bullets || []).map(function (b) { return "<li>" + esc(b) + "</li>"; }).join("");
+          var html = "";
+          if (p.kicker) html += '<div class="cp-kicker">' + esc(p.kicker) + "</div>";
+          html += '<div class="cp-head"><span class="cp-title' + (p.code ? " code" : "") + '">' + esc(p.title) + "</span>";
+          if (p.subtitle) html += '<span class="cp-sub">' + esc(p.subtitle) + "</span>";
+          html += "</div>";
+          html += '<div class="cp-divider"></div>';
+          if (p.summary) html += '<div class="cp-one">' + esc(p.summary) + "</div>";
+          if (p.syntax) html += '<div class="cp-label">Syntax</div><div class="cp-block syntax">' + esc(p.syntax) + "</div>";
+          if (p.example) html += '<div class="cp-label">Example</div><div class="cp-block">' + esc(p.example) + "</div>";
+          if (rows) html += '<ul class="cp-rows">' + rows + "</ul>";
+          if (bullets) html += '<ul class="cp-bullets">' + bullets + "</ul>";
+          if (p.note) html += '<div class="cp-note">' + esc(p.note).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>") + "</div>";
+          el.innerHTML = html;
+          panelLayer.appendChild(el);
+          tl.fromTo(el, { opacity: 0, x: 64, visibility: "hidden" }, { opacity: 1, x: 0, visibility: "visible", duration: 0.4, ease: "expo.out" }, p.t0);
+          tl.to(el, { opacity: 0, x: 44, duration: 0.3, ease: "power2.in" }, Math.max(p.t0 + 0.4, p.t1 - 0.3));
+          tl.set(el, { opacity: 0, visibility: "hidden" }, p.t1);
+        });
+
+        // ---------- self-lint: nothing left visible after its end ----------
+        (V.captions || []).forEach(function (c, i) {
+          tl.seek(c.t1 + 0.02);
+          var el = document.getElementById("cg-" + i);
+          var cs = window.getComputedStyle(el);
+          if (cs.opacity !== "0" && cs.visibility !== "hidden") console.warn("[caption-lint] cg-" + i + " visible after end");
+        });
+        tl.seek(0);
+
+        window.__timelines["main"] = tl;
+      </script>
+    </div>
+  </body>
+</html>

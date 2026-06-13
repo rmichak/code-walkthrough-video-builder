@@ -10,9 +10,11 @@ npm-debug.log*
 # Generated HyperFrames project artifacts (these are produced by the build, not source)
 demo/
 *-hyperframes/
-index.html
+/index.html
 data.js
 cc-data.js
+# …but the skill's source composition shells are NOT generated — keep them.
+!skills/**/index.html
 
 # Generated audio / transcripts (regenerate with tts + transcribe)
 audio/*.wav
