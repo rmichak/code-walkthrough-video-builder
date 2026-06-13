@@ -9,6 +9,9 @@ Everything is generated from text, so a video is **regenerable**: change a line,
 ~30 seconds. The whole pipeline is driven by the open-source [`hyperframes`](https://www.npmjs.com/package/hyperframes)
 CLI (fetched automatically via `npx`) plus the two **skills** in this repo.
 
+▶️ **See it in action:** [Hello, World! — a 32s demo built entirely by this repo](https://youtu.be/WsDKeWgSBDU)
+(source + build commands in [`examples/hello-world/`](examples/hello-world/)).
+
 > These are [Agent Skills](https://docs.claude.com/en/docs/claude-code/skills) — folders of
 > instructions + assets that an AI coding agent (Claude Code) loads on demand. You can also run
 > the pipeline **by hand** without any agent; both paths are documented below.
@@ -228,6 +231,7 @@ The `examples/` folder holds finished videos paired with the spec that produced 
 - **[`examples/hello-world/`](examples/hello-world/)** — a ~32s Python "Hello, World!" explainer
   rendered end-to-end by the `code-demo-video` skill (the same example the quick start builds).
   It ships with the rendered MP4, its single source `demo.spec.mjs`, and the exact build commands.
+  **▶️ Watch on YouTube: https://youtu.be/WsDKeWgSBDU**
 
 If you build something with these skills, an example spec + a short rendered clip is a great
 contribution.
