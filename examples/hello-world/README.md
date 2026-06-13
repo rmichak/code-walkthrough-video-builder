@@ -5,6 +5,8 @@ skill — no screen recording. A simulated VS Code window types out a Python `he
 opens the integrated terminal, runs it, and shows the output, with TTS voiceover and
 word-synced captions. It's the canonical example that ships with the skill.
 
+<a href="https://youtu.be/WsDKeWgSBDU"><img src="thumbnail.jpg" width="640" alt="Watch on YouTube: Hello, World! — a 32-second demo built entirely by this repo"></a>
+
 - **Video:** [`python-basics-hello-world.mp4`](python-basics-hello-world.mp4) (1920×1080, ~32s, H.264)
 - **Source spec:** [`demo.spec.mjs`](demo.spec.mjs) — the single file that produced it
 - **YouTube:** https://youtu.be/WsDKeWgSBDU

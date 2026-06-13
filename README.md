@@ -9,8 +9,10 @@ Everything is generated from text, so a video is **regenerable**: change a line,
 ~30 seconds. The whole pipeline is driven by the open-source [`hyperframes`](https://www.npmjs.com/package/hyperframes)
 CLI (fetched automatically via `npx`) plus the two **skills** in this repo.
 
-▶️ **See it in action:** [Hello, World! — a 32s demo built entirely by this repo](https://youtu.be/WsDKeWgSBDU)
-(source + build commands in [`examples/hello-world/`](examples/hello-world/)).
+**▶️ See it in action** — a 32-second demo built entirely by this repo
+([source + build commands](examples/hello-world/)):
+
+<a href="https://youtu.be/WsDKeWgSBDU"><img src="examples/hello-world/thumbnail.jpg" width="640" alt="Watch on YouTube: Hello, World! — a 32-second demo built entirely by this repo"></a>
 
 > These are [Agent Skills](https://docs.claude.com/en/docs/claude-code/skills) — folders of
 > instructions + assets that an AI coding agent (Claude Code) loads on demand. You can also run
