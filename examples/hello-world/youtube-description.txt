@@ -1,0 +1,32 @@
+This entire video was generated from a single text spec file — no screen recording, no
+video editor, no one typing on camera. The "VS Code" window, the character-by-character
+typing, the terminal output, the voiceover, and the captions are all produced
+programmatically, then rendered to MP4.
+
+▶ What you're watching
+A ~30-second "Hello, World!" Python explainer. A simulated VS Code editor types out
+hello.py, opens the integrated terminal, runs it, and shows the output — narrated by a
+text-to-speech voice with word-synced captions burned in. Change one line of the spec and
+the whole video re-renders in about 30 seconds.
+
+🛠 How it's made
+It's built with HyperFrames, an open-source CLI that turns an HTML composition into a
+rendered video, plus two Agent Skills I wrote that drive the whole pipeline:
+
+  • code-demo-video — fabricates the simulated VS Code typing demo (this video)
+  • nvcc-video — captions/enhances a real screen recording, or turns a slide deck into a
+    narrated lecture
+
+The pipeline: one spec file → build script emits the composition → TTS generates the
+voiceover (Kokoro af_heart) → Whisper transcribes it for word-level captions → HyperFrames
+lints, validates (WCAG contrast), and renders to 1080p H.264.
+
+🔗 Links
+• Skills + full build instructions (clone and try it): https://github.com/rmichak/code-walkthrough-video-builder
+• The exact source spec for this video: https://github.com/rmichak/code-walkthrough-video-builder/tree/main/examples/hello-world
+• HyperFrames (npm): https://www.npmjs.com/package/hyperframes
+• HyperFrames docs: https://hyperframes.heygen.com
+
+Everything here is reproducible — the repo has the spec, the commands, and this exact video.
+
+#Python #HelloWorld #HyperFrames #CodingTutorial #DevTools #AIvideo #ProgrammingForBeginners

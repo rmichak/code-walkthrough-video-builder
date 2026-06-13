@@ -10,6 +10,7 @@ word-synced captions. It's the canonical example that ships with the skill.
 - **Video:** [`python-basics-hello-world.mp4`](python-basics-hello-world.mp4) (1920×1080, ~32s, H.264)
 - **Source spec:** [`demo.spec.mjs`](demo.spec.mjs) — the single file that produced it
 - **YouTube:** https://youtu.be/WsDKeWgSBDU
+- **YouTube description:** [`youtube-description.txt`](youtube-description.txt) — the copy used in the video details
 
 ## How it was built
 
