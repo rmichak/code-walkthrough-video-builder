@@ -2,8 +2,11 @@
 
 Finished videos and the spec/config that produced them go here.
 
-A real-world example (one of Randy's existing videos, plus its source spec) will be added later
-so you can see a complete input → output pair and reuse it as a starting template.
+## Available
+
+- **[hello-world/](hello-world/)** — a ~32s Python "Hello, World!" explainer built end-to-end by
+  the `code-demo-video` skill. Includes the rendered MP4 and its single source spec, plus the exact
+  build commands. This is the canonical starting template.
 
 ## Suggested layout for an example
 

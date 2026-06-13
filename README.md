@@ -223,9 +223,14 @@ code-walkthrough-video-builder/
 
 ## Examples
 
-The `examples/` folder is a placeholder for finished videos / spec pairs. A real-world example
-video will be added here later. If you build something with these skills, an example spec + a
-short rendered clip is a great contribution (see below).
+The `examples/` folder holds finished videos paired with the spec that produced them.
+
+- **[`examples/hello-world/`](examples/hello-world/)** — a ~32s Python "Hello, World!" explainer
+  rendered end-to-end by the `code-demo-video` skill (the same example the quick start builds).
+  It ships with the rendered MP4, its single source `demo.spec.mjs`, and the exact build commands.
+
+If you build something with these skills, an example spec + a short rendered clip is a great
+contribution.
 
 ---
 
