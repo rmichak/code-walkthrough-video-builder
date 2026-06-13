@@ -1,0 +1,29 @@
+# Node
+node_modules/
+npm-debug.log*
+
+# Secrets — never commit
+.env
+.env.*
+*.key
+
+# Generated HyperFrames project artifacts (these are produced by the build, not source)
+demo/
+*-hyperframes/
+index.html
+data.js
+cc-data.js
+
+# Generated audio / transcripts (regenerate with tts + transcribe)
+audio/*.wav
+audio/*.json
+narration/
+
+# Renders — keep these out of git; put curated samples in examples/ instead
+renders/
+*.mp4
+!examples/**/*.mp4
+
+# OS cruft
+.DS_Store
+Thumbs.db
