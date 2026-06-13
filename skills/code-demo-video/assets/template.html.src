@@ -464,6 +464,7 @@
       .code-line {
         display: flex;
         border-radius: 4px;
+        position: relative;
       }
       .gutter {
         width: 88px;
@@ -509,20 +510,26 @@
         vertical-align: text-bottom;
         visibility: hidden;
       }
+      /* Callouts are RIGHT-ANCHORED inside their own code line so they can never run
+         off the right edge no matter how long the code line is. The lit (focus) line +
+         the note at the right margin read as a pair. */
       .line-callout {
-        display: inline-block;
-        position: relative;
-        z-index: 5; /* above the minimap */
-        margin-left: 30px;
-        font-size: 20px;
-        letter-spacing: 0.06em;
+        position: absolute;
+        right: 130px; /* clear of the minimap; never past the screen edge */
+        top: 6px;
+        z-index: 5;
+        font-size: 19px;
+        letter-spacing: 0.05em;
         color: var(--accentB);
+        background: rgba(14, 17, 22, 0.92);
         border: 2px solid var(--accentB);
         border-radius: 8px;
-        padding: 4px 16px;
-        vertical-align: middle;
+        padding: 4px 15px;
         opacity: 0;
         white-space: nowrap;
+        max-width: 620px;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       .vsc-terminal {
         position: absolute;
@@ -872,90 +879,93 @@
       }
 
       /* ============ OVERLAY PAUSE (over the editor — code stays visible) ============ */
+      /* Pause card sits in the cleared zone on the RIGHT after the editor scales down
+         (see the editor-shrink tween in build-demo.mjs) — so it never overlaps code. */
       .pause-ov {
         position: absolute;
         inset: 0;
         display: flex;
-        align-items: flex-end;
-        justify-content: flex-end; /* bottom-right: keeps left-aligned code visible */
+        align-items: center;
+        justify-content: flex-end;
         z-index: 60;
       }
       .pov-card {
         position: relative;
-        width: 720px;
-        margin: 0 96px 168px 0; /* clear the caption strip + right edge */
-        background: rgba(11, 14, 19, 0.9);
+        width: 486px;
+        margin: 0 46px 0 0;
+        background: rgba(11, 14, 19, 0.94);
         border: 2px solid var(--accentB);
         border-radius: 18px;
-        padding: 26px 36px 22px;
+        padding: 24px 30px 20px;
         box-shadow: 0 26px 80px rgba(0, 0, 0, 0.6);
       }
       .pov-toprow {
         display: flex;
         align-items: center;
-        gap: 18px;
-        margin-bottom: 16px;
+        gap: 15px;
+        margin-bottom: 14px;
       }
       .pov-glyph {
         display: flex;
-        gap: 7px;
+        gap: 6px;
       }
       .pov-glyph span {
-        width: 11px;
-        height: 34px;
+        width: 9px;
+        height: 27px;
         border-radius: 4px;
         background-color: var(--accentB);
       }
       .pov-badge {
         font-family: "JetBrains Mono", monospace;
-        font-size: 18px;
-        letter-spacing: 0.16em;
+        font-size: 16px;
+        letter-spacing: 0.15em;
         font-weight: 700;
         color: #0e1116;
         background-color: var(--accentB);
         border-radius: 999px;
-        padding: 6px 18px;
+        padding: 5px 16px;
       }
       .pov-head {
-        font-size: 42px;
+        font-size: 31px;
         font-weight: 800;
         letter-spacing: -0.02em;
-        line-height: 1.08;
+        line-height: 1.1;
         color: var(--inkHi);
-        margin-bottom: 16px;
+        margin-bottom: 14px;
       }
       .pov-list {
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        gap: 9px;
       }
       .pov-item {
         display: flex;
         align-items: center;
-        gap: 15px;
-        font-size: 25px;
+        gap: 13px;
+        font-size: 21px;
         font-weight: 350;
+        line-height: 1.3;
         color: var(--inkMid);
       }
       .pov-box {
-        width: 23px;
-        height: 23px;
+        width: 20px;
+        height: 20px;
         border: 2px solid var(--accentA);
         border-radius: 5px;
         flex: none;
       }
       .pov-hint {
         font-family: "JetBrains Mono", monospace;
-        font-size: 20px;
+        font-size: 17px;
         color: var(--inkMeta);
-        margin-top: 16px;
+        margin-top: 14px;
       }
       .pov-foot {
         font-family: "JetBrains Mono", monospace;
-        font-size: 18px;
-        letter-spacing: 0.16em;
+        font-size: 15px;
+        letter-spacing: 0.15em;
         color: var(--accentB);
-        margin-top: 18px;
+        margin-top: 16px;
       }
 
       /* ============ STEPS OVERLAY (literal how-to steps, top-right) ============ */

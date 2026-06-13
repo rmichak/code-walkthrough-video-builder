@@ -13,7 +13,7 @@
 
 - Present tense, second person, contractions: "Now we run it", "you'll see".
 - One idea per beat. Name what's on screen as it appears: "watch the terminal."
-- **Respell for TTS** per `../nvcc-video/references/PRONUNCIATIONS.md`
+- **Respell for TTS** per `/Users/randymichak/.claude/skills/nvcc-video/references/PRONUNCIATIONS.md`
   (pie-thawn, dot P Y, V S Code, …). New terms: test the wav, add the respelling back to that file.
 - Captions must show the CORRECT spelling — add every respelling to `captionFixes` in the spec:
   `[["pie thawn", "Python"], ["P Y", "py"]]`.

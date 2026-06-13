@@ -502,9 +502,12 @@ function editorSceneHTML(sc) {
           </div>
         </div>`;
     const t = b.start;
-    emit(`tl.fromTo("#${id}", { visibility: "hidden", opacity: 0 }, { visibility: "visible", opacity: 1, duration: 0.4, ease: "power2.out" }, ${n2(t + 0.2)});`);
-    emit(`tl.fromTo("#${id} .pov-card", { y: 38, scale: 0.96 }, { y: 0, scale: 1, duration: 0.5, ease: "back.out(1.4)" }, ${n2(t + 0.2)});`);
-    emit(`tl.fromTo("#${id} .pov-item", { x: -20, opacity: 0 }, { x: 0, opacity: 1, duration: 0.4, ease: "power2.out", stagger: 0.1 }, ${n2(t + 0.55)});`);
+    // shrink the editor toward its top-left so the card has clear space on the right
+    // (never overlaps code). The next scene is a fresh full-size editor.
+    emit(`tl.to("#${sc.id} .vsc", { scale: 0.74, duration: 0.55, ease: "power3.out", transformOrigin: "0% 0%" }, ${n2(t + 0.1)});`);
+    emit(`tl.fromTo("#${id}", { visibility: "hidden", opacity: 0 }, { visibility: "visible", opacity: 1, duration: 0.4, ease: "power2.out" }, ${n2(t + 0.25)});`);
+    emit(`tl.fromTo("#${id} .pov-card", { x: 40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5, ease: "back.out(1.4)" }, ${n2(t + 0.25)});`);
+    emit(`tl.fromTo("#${id} .pov-item", { x: -16, opacity: 0 }, { x: 0, opacity: 1, duration: 0.4, ease: "power2.out", stagger: 0.1 }, ${n2(t + 0.6)});`);
   });
 
   /* steps overlay: a small red-accented card (top-right) listing the literal steps for

@@ -59,7 +59,7 @@ nothing cut off (terminal is sized for full output; keep ≤13 code lines per ed
 - `hyperframes` — composition rules (only needed if hand-tweaking the generated HTML)
 - `hyperframes-cli` — lint / inspect / render commands
 - `hyperframes-media` — `tts` and `transcribe` usage
-- Pronunciations: `../nvcc-video/references/PRONUNCIATIONS.md`
+- Pronunciations: `/Users/randymichak/.claude/skills/nvcc-video/references/PRONUNCIATIONS.md`
 
 ## Workflow
 
@@ -115,10 +115,30 @@ npx hyperframes inspect --at <times from the beat map>
 npx hyperframes render --output renders/<course>-<module>-<slug>.mp4 --quality standard
 ```
 
-**10 · Frame verification (mandatory).** Use the ffmpeg one-liner the build printed; READ every
-extracted frame and confirm: typing state matches narration, captions show correct spellings,
-pause cards are complete, terminal output is right. Iterate (fix → rebuild → re-render) until
-clean. Deliver the mp4 path + beat map.
+**10 · REVIEW — watch the video, frame by frame (MANDATORY — do NOT skip or deliver without it).**
+Extract a frame at EVERY beat midpoint (and a few extra frames inside long beats — file-create,
+each pause, the run output) and READ each one. This is a real QA pass, not a formality — Randy has
+rejected videos for exactly the failures below. Check every frame against this checklist:
+
+  1. **Nothing cut off.** No callout, code line, terminal output line, doc text, or card may touch
+     or cross the right/bottom edge. The full terminal output (every line + trailing prompt) must
+     be inside the panel. Doc-sheet text must not overflow the sheet. If anything is clipped → fix
+     (right-anchored callouts handle this automatically; for output raise the terminal room / fewer
+     code lines; for docs shorten the section).
+  2. **Pause card never overlaps code.** The editor auto-shrinks so the card sits in clear space —
+     confirm no code is under the card and the code is still legible (smaller, to the left).
+  3. **Voiceover matches what's on screen.** Read the caption in the frame and confirm the visual
+     matches the words AT THAT MOMENT: when narration says "click the New File icon", the New File
+     redbox is firing and the name is about to type; when it says "press enter, it opens", the tab
+     appears; when it names a line/term, THAT line is lit / being typed. Re-time actions (`at`,
+     `fileCreateAt`, `fileOpenAt`, `terminal-open` time, redbox/stepsOverlay `at`) so the picture
+     tracks the words. Misalignment is a defect, not a nicety.
+  4. **Captions spelled right** (check `captionFixes`), pause cards complete, redboxes on the right
+     element, doc pages readable, syntax colors correct, focus border on the line being discussed.
+
+Iterate (fix → rebuild → re-render → re-review) until a full pass is clean. Only then deliver the
+mp4 path + beat map. When building several modules, run this review on EACH one — a clean lint and
+inspect do NOT replace watching the frames.
 
 ## Embedding
 
